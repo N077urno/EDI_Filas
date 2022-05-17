@@ -5,6 +5,8 @@
 
 package com.mycompany.filajava1;
 
+import java.util.Random;
+
 /**
  *
  * @author nando
@@ -12,94 +14,63 @@ package com.mycompany.filajava1;
 public class FilaJava1 {
 
     public static void main(String[] args) {
-        Aluno a = new Aluno();
-        Aluno b = new Aluno();
-        Aluno c = new Aluno();
-        Aluno d = new Aluno();
-        Aluno e = new Aluno();
+        int tipoFila; //variável para determinar em qual fila será inserido o objedo
+        int qsandwich,qbebidas,qgrelhados,qsobremesa; //quantidade de produtos em cada pedido
+        Random gerador = new Random(); // gerador de número aleatório
         
-        Aluno resp = new Aluno();
+        Object obj = new Object();  //Objeto auxiliar para impressão das filas e dos itens das filas
         
-        a.nome = "Ana";
-        a.matricula = 1001;
-        a.idade = 20;
-        a.curso = "BCC";
-        a.semestre = 2;
+        Pedido pedido = new Pedido(); //Pedido criado
         
-        b.nome = "Jose";
-        b.matricula = 1002;
-        b.idade = 18;
-        b.curso = "TSI";
-        b.semestre = 1;
+        FilaPedido filaPedido = new FilaPedido();   //fila de pedido criada    
         
-        c.nome = "Joao";
-        c.matricula = 1003;
-        c.idade = 25;
-        c.curso = "Agro";
-        c.semestre = 5;
+        FilaPreparacao filaPreparacao = new FilaPreparacao(); //fila de preparacao criada
         
-        d.nome = "Rafa";
-        d.matricula = 1004;
-        d.idade = 19;
-        d.curso = "zoo";
-        d.semestre = 3;
+        Entrega entrega = new Entrega(); // fila de entrega criada
         
-        e.nome = "Maria";
-        e.idade = 21;
-        e.matricula = 1005;
-        e.curso = "ali";
-        e.semestre = 4;
-        
-        Fila filaAlunos = new Fila();
-        
-        filaAlunos.insere(d);
-        filaAlunos.insere(e);
-        filaAlunos.insere(b);
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
-        
-        filaAlunos.insere(a);
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
-        
-        filaAlunos.insere(c);
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
-        
-        if(!filaAlunos.filaVazia()){
-            resp = filaAlunos.remover();
-            System.out.println("O almoco sera servido para o aluno:");
-            System.out.println("Nome..: "+resp.nome+" Matricula..: "+resp.matricula);
-        }
+      for(int i=0; i<10; i++){ // laço de repetição para a criação de itens e pedidos para as filas
+          tipoFila = gerador.nextInt(10);
+          
+          if(tipoFila <= 5){
+              
+              pedido.produtos.clear(); //limpa a lista de produtos para iniciar um novo pedido
+             
+              qsandwich = gerador.nextInt(5); // Nesse exemplo, um pedido pode ter até 5 itens de cada produto
+              qbebidas = gerador.nextInt(5);
+              qgrelhados = gerador.nextInt(5);
+              qsobremesa = gerador.nextInt(5);
+              
+              for(int j = 0; j < qsandwich; j++){ //Laço para a quantidade de sandwichs do pedido
+                  pedido.insere(new Sandwich(gerador.nextInt(5),gerador.nextInt(5),gerador.nextInt(5),gerador.nextInt(5),5,gerador.nextInt(5))); //Os indices do construtor são só exemplos
+              }
+            
+            for(int j = 0; j < pedido.produtos.size(); j++){ //Laço para imprimir um pedido
+                  obj = pedido.produtos.get(j); //Pega cada produto de um pedido
+                  
+                  if(obj instanceof Sandwich){ //Verifica se o produto é uma instância de sandwich
+                      System.out.println("******* Pedido Fechado *******");
+                      ((Sandwich) obj).imprimir(); //imprime os dados do sandwich
+                  }
+            }
+            
+              
+            filaPedido.insere(pedido); // Insere o pedido na fila de pedidos
+                        
+            filaPedido.imprimirFilaDePedidos(filaPedido, obj); //imprime a fila de pedidos
+              
+          }else if((tipoFila>5)&&(tipoFila<=8)){ //sere o pedido na fila de preparação
+              
+            if(!filaPedido.filaVazia()) // verifica se a fila de pedidos não está vazia
+              filaPreparacao.insere(filaPedido.remover()); //remove o pedido da fila de pedidos e insere na fila de preparação
+                                   
+              
+          }else{ // insere o pedido na fila de Entrega;
+             
+            if(!filaPreparacao.filaVazia()) //verifica se a fila de entrega não está vazia           
+              entrega.insere(filaPreparacao.remover()); //remove o pedido da fila de preparação e insere na fila de entrega
+            
+          }
+          
+      }
     }
 }

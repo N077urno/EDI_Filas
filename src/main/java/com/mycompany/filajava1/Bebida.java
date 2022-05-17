@@ -4,13 +4,21 @@
  */
 package com.mycompany.filajava1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author nando
  */
-public class Fila {
+public class Bebida {
+    int tipo;
+    int tamanho;
+    float preco;
+    int ID;
+    
+    public Bebida(int t, int tam, float pr, int id){
+        this.tipo = t;
+        this.tamanho = tam;
+        this.preco = pr;
+        this.ID = id;
+    }
     
 }

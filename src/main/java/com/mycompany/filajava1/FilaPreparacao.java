@@ -11,6 +11,18 @@ import java.util.List;
  *
  * @author nando
  */
-public class Fila {
+public class FilaPreparacao {
+    List<Pedido> preparacao = new ArrayList<>();
     
+    void insere(Pedido a){
+        this.preparacao.add(a);
+    }
+    
+    Pedido remover(){
+        return this.preparacao.remove(0);
+    }
+    
+    boolean filaVazia(){
+        return this.preparacao.isEmpty();
+    }
 }
